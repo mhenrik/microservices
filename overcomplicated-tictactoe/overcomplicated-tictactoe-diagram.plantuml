@@ -1,92 +1,64 @@
 @startuml
 
-title Tic Tac Toe gaming system - Component Diagram
+title Overcomplicated TicTacToe gaming system - Component Diagram
 
 package "Front End" {
-    component [Web\nInterface] as GUI
+    component [Web Interface] as GUI
 }
 
-database "PostgreSQL\n" as DB{
+database "PostgreSQL\n" as DB {
 }
 
 cloud "\nInternet\n" as Internet {
 }
 
-cloud "\nLocal Network\nor\nLocalhost\n" as localhost{
+cloud "\nLocal network\nor\nlocalhost\n" as localhost {
 }
 
 node "Web server" as WebServer{
     [GameController]
     [Data Access] as DA
-    interface "Spark routes" as Routes
+    interface "Routes" as Routes
     interface "Game Model" as Game
 }
 
 package "Services" as services{
-
-    node "TicTacToeAIService" as core{
-        interface "API" as CoreAPI
-        [Business Logic] as CoreLogic
-    }
-
-    node "GreetingGeneratorService" as greeting{
-        interface "API" as GreetingAPI
-        [Business Logic] as GreetingLogic
-        cloud "Magic" as GreetingMagic
-    }
-
-    node "FunFactGeneratorService" as funfact{
+    node "funfact-service" as funfact {
         interface "API" as FunFactAPI
         [Business Logic] as FunFactLogic
         cloud "Magic" as FunFactMagic
     }
-
-    node "GratulationGeneratorService" as gratulation{
-        interface "API" as GratulationAPI
-        [Business Logic] as GratulationLogic
-        cloud "Magic" as GratulationMagic
-    }
-
-    node "ComicGeneratorService" as comic{
+    node "comics-service" as comic {
         interface "API" as ComicAPI
         [Business Logic] as ComicLogic
         cloud "Magic" as ComicMagic
     }
-
-    node "AvatarGeneratorService" as avatar{
+    node "avatar-service" as avatar {
         interface "API" as AvatarAPI
         [Business Logic] as AvatarLogic
         cloud "Magic" as AvatarMagic
+    }
+    node "tictactoe-ai-service" as ai {
+        interface "API" as aiAPI
+        [Business Logic] as aiLogic
+        cloud "Magic" as aiMagic
     }
 }
 
 WebServer -[hidden]left- services
 localhost -[hidden]left- WebServer
-core -[hidden]down- greeting
-greeting -[hidden]down- funfact
-funfact -[hidden]down- gratulation
-gratulation -[hidden]down- comic
+funfact -[hidden]down- comic
 comic -[hidden]down- avatar
+avatar -[hidden]down- ai
 
 GUI -down-> Internet
 Internet -down-( Routes
 GameController -up- Routes
 GameController <-left- localhost
 
-localhost -left-( CoreAPI
-CoreAPI -left- CoreLogic
-
-localhost -left-( GreetingAPI
-GreetingAPI -left- GreetingLogic
-GreetingLogic -left- GreetingMagic
-
 localhost -left-( FunFactAPI
 FunFactAPI -left- FunFactLogic
 FunFactLogic -left- FunFactMagic
-
-localhost -left-( GratulationAPI
-GratulationAPI -left- GratulationLogic
-GratulationLogic -left- GratulationMagic
 
 localhost -left-( ComicAPI
 ComicAPI -left- ComicLogic
@@ -95,6 +67,10 @@ ComicLogic -left- ComicMagic
 localhost -left-( AvatarAPI
 AvatarAPI -left- AvatarLogic
 AvatarLogic -left- AvatarMagic
+
+localhost -left-( aiAPI
+aiAPI -left- aiLogic
+aiLogic -left- aiMagic
 
 DA -up- Game
 GameController -right- Game
