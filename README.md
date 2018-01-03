@@ -20,7 +20,7 @@ The idea behind this system is to build multiple services for smaller parts.
 This will allow autonomous development and maintenance. 
 The *architect guy* created the following component UML:
 
-![UML](overcomplicated-tictactoe-diagram.png)
+![UML](overcomplicated-tictactoe/overcomplicated-tictactoe-diagram.png)
 
 
 ## Services one by one</a>
