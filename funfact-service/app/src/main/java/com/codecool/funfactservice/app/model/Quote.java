@@ -1,24 +1,42 @@
 package com.codecool.funfactservice.app.model;
 
-import lombok.*;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "QUOTE")
-@NoArgsConstructor
-@ToString
+@JsonIgnoreProperties(ignoreUnknown = true,
+        value = {"hibernateLazyInitializer", "handler", "created"})
 public class Quote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private @Getter @Setter long id;
+    private long id;
 
     @Column(name = "quote")
-    private @Getter @Setter String chuckQuote;
+    private String quote;
 
-    public Quote(String chuckQuote){
-        this.chuckQuote = chuckQuote;
+    public Quote() {
+    }
+
+    public Quote(String Quote){
+        this.quote = Quote;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getQuote() {
+        return quote;
+    }
+
+    public void quote(String qote) {
+        this.quote = quote;
     }
 
 }
