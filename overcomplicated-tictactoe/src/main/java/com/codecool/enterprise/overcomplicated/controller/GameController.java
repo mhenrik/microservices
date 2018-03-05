@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 
 @Controller
-@SessionAttributes({"player", "game"})
+@SessionAttributes({"player", "game", "avatar_uri"})
 public class GameController {
 
     private static final String FUNFACTURL = "http://localhost:60001/quotes/quote";
@@ -23,6 +23,9 @@ public class GameController {
     private static final String COMICURL = "http://localhost:60002/comic";
     private static final String COMICIMGKEY = "url";
     private static final String COMICALTKEY = "alt";
+
+    private static final String AVATARURL = "http://localhost:60003/avatar";
+    private static final String AVATARKEY = "url";
 
     private JsonService jsonService;
 
@@ -41,8 +44,8 @@ public class GameController {
     }
 
     @ModelAttribute("avatar_uri")
-    public String getAvatarUri() {
-        return "https://robohash.org/codecool";
+    public String getAvatarUri() throws IOException{
+        return jsonService.parseJson(AVATARURL, AVATARKEY);
     }
 
     @GetMapping(value = "/")
