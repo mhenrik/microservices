@@ -20,6 +20,10 @@ public class GameController {
     private static final String FUNFACTURL = "http://localhost:60001/quotes/quote";
     private static final String FUNFACTKEY = "quote";
 
+    private static final String COMICURL = "http://localhost:60002/comic";
+    private static final String COMICIMGKEY = "url";
+    private static final String COMICALTKEY = "alt";
+
     private JsonService jsonService;
 
     public GameController(JsonService jsonService) {
@@ -56,8 +60,12 @@ public class GameController {
 
         String quote = jsonService.parseJson(FUNFACTURL, FUNFACTKEY);
 
+        String img = jsonService.parseJson(COMICURL, COMICIMGKEY);
+        String alt = jsonService.parseJson(COMICURL, COMICALTKEY);
+
         model.addAttribute("funfact", quote);
-        model.addAttribute("comic_uri", "https://imgs.xkcd.com/comics/bad_code.png");
+        model.addAttribute("comic_uri", img);
+        model.addAttribute("comic_alt", alt);
         return "game";
     }
 

@@ -27,7 +27,7 @@ public class QuoteServiceREST {
     }
 
     @GetMapping(value = "/quotes/quote", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Quote> getRandomQuote() throws JsonProcessingException {
+    public ResponseEntity<Quote> getRandomQuote() {
         Quote quote = quoteService.getRandomQuote();
         return new ResponseEntity<>(quote, HttpStatus.OK);
     }

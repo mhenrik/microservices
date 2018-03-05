@@ -1,4 +1,4 @@
-package com.codecool.enterprise.overcomplicated.service;
+package com.codecool.comicsservice.app.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
