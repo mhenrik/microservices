@@ -2,24 +2,29 @@ package com.codecool.enterprise.overcomplicated.controller;
 
 import com.codecool.enterprise.overcomplicated.model.Player;
 import com.codecool.enterprise.overcomplicated.model.TictactoeGame;
+import com.codecool.enterprise.overcomplicated.service.JsonService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Map;
 
 @Controller
 @SessionAttributes({"player", "game"})
 public class GameController {
+
+    private static final String FUNFACTURL = "http://localhost:60001/quotes/quote";
+    private static final String FUNFACTKEY = "quote";
+
+    private JsonService jsonService;
+
+    public GameController(JsonService jsonService) {
+        this.jsonService = jsonService;
+    }
 
     @ModelAttribute("player")
     public Player getPlayer() {
@@ -49,10 +54,9 @@ public class GameController {
     @GetMapping(value = "/game")
     public String gameView(@ModelAttribute("player") Player player, Model model) throws IOException {
 
-        RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> response = restTemplate.getForObject("http://localhost:60001/quotes/quote", Map.class);
-        String quote = response.get("quote");
-        model.addAttribute("funfact", "&quot;" + quote + "&quot;");
+        String quote = jsonService.parseJson(FUNFACTURL, FUNFACTKEY);
+
+        model.addAttribute("funfact", quote);
         model.addAttribute("comic_uri", "https://imgs.xkcd.com/comics/bad_code.png");
         return "game";
     }
