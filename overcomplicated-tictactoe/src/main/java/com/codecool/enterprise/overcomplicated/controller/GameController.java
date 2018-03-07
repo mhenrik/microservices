@@ -29,7 +29,7 @@ public class GameController {
     private static final String AVATARKEY = "url";
 
     private static final String AIURL = "http://localhost:60004/ai/";
-    private static final String AIKEY = "fields";
+    private static final String AIKEY = "field";
 
     private JsonService jsonService;
 
@@ -87,7 +87,7 @@ public class GameController {
     @PostMapping(value = "/game/moves", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity move(@RequestParam("table") String table) throws IOException {
         System.out.println(table);
-        String url = AIURL + table + "/" + "X";
+        String url = AIURL + table + "/" + "O";
         JsonNode result = jsonService.parseJson(url, AIKEY);
         return ResponseEntity.ok(result);
     }

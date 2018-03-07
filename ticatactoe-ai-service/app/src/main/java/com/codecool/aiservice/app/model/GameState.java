@@ -12,16 +12,22 @@ public class GameState {
         this.fields = fields;
     }
 
-    public void aisTurn(String turn){
+    public Integer aisTurn(String turn){
         List<Integer> emptypositions = new ArrayList<>();
         for (int i = 0; i < fields.length; i++){
             if (!fields[i].equals("O") && !fields[i].equals("X")){
                 emptypositions.add(i);
             }
         }
-        int rand = ThreadLocalRandom.current().nextInt(0, emptypositions.size());
-        int position = emptypositions.get(rand);
-        fields[position] = turn;
+        System.out.println(emptypositions.size());
+        if (emptypositions.size() == 0){
+            return null;
+        } else {
+            int rand = ThreadLocalRandom.current().nextInt(0, emptypositions.size());
+            int position = emptypositions.get(rand);
+            fields[position] = turn;
+            return position;
+        }
     }
 
     public String[] getFields() {

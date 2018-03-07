@@ -35,6 +35,16 @@ $(function () {
             data: data,
             success: function (response) {
                 console.log(response);
+                if(response == null) {
+                    alert('end of game');
+                } else {
+                    id = response;
+                    let square = $('#'+response);
+                    let newIcon = $('<i/>', {});
+                    newIcon.attr("aria-hidden", true);
+                    newIcon.attr("class", "fa fa-circle-o");
+                    square.append(newIcon);
+                }
             },
             error: function (response) {
                 console.log(response)
