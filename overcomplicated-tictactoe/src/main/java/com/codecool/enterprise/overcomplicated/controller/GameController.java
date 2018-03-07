@@ -5,6 +5,7 @@ import com.codecool.enterprise.overcomplicated.model.TictactoeGame;
 import com.codecool.enterprise.overcomplicated.service.JsonService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,9 @@ public class GameController {
     private static final String AVATARURL = "http://localhost:60003/avatar";
     private static final String AVATARKEY = "url";
 
+    private static final String AIURL = "http://localhost:60004/ai/";
+    private static final String AIKEY = "fields";
+
     private JsonService jsonService;
 
     public GameController(JsonService jsonService) {
@@ -40,12 +44,12 @@ public class GameController {
 
     @ModelAttribute("game")
     public TictactoeGame getGame() {
-        return new TictactoeGame();
+        return TictactoeGame.getInstance();
     }
 
     @ModelAttribute("avatar_uri")
     public String getAvatarUri() throws IOException{
-        return jsonService.parseJson(AVATARURL, AVATARKEY);
+        return jsonService.parseJsonToString(AVATARURL, AVATARKEY);
     }
 
     @GetMapping(value = "/")
@@ -61,10 +65,10 @@ public class GameController {
     @GetMapping(value = "/game")
     public String gameView(@ModelAttribute("player") Player player, Model model) throws IOException {
 
-        String quote = jsonService.parseJson(FUNFACTURL, FUNFACTKEY);
+        String quote = jsonService.parseJsonToString(FUNFACTURL, FUNFACTKEY);
 
-        String img = jsonService.parseJson(COMICURL, COMICIMGKEY);
-        String alt = jsonService.parseJson(COMICURL, COMICALTKEY);
+        String img = jsonService.parseJsonToString(COMICURL, COMICIMGKEY);
+        String alt = jsonService.parseJsonToString(COMICURL, COMICALTKEY);
 
         model.addAttribute("funfact", quote);
         model.addAttribute("comic_uri", img);
@@ -73,8 +77,18 @@ public class GameController {
     }
 
     @GetMapping(value = "/game-move")
-    public String gameMove(@ModelAttribute("player") Player player, @ModelAttribute("move") int move) {
-        System.out.println("Player moved " + move);
+    public String gameMove(@ModelAttribute("player") Player player, @ModelAttribute("move") int move, @ModelAttribute("game") TictactoeGame tictactoeGame) {
+        System.out.println("Player moved "+ move);
         return "redirect:/game";
+    }
+
+
+
+    @PostMapping(value = "/game/moves", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity move(@RequestParam("table") String table) throws IOException {
+        System.out.println(table);
+        String url = AIURL + table + "/" + "X";
+        JsonNode result = jsonService.parseJson(url, AIKEY);
+        return ResponseEntity.ok(result);
     }
 }

@@ -11,7 +11,7 @@ import java.io.IOException;
 @Service
 public class JsonService {
 
-    public String parseJson(String url, String key) throws IOException {
+    public String parseJsonToString(String url, String key) throws IOException {
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
@@ -21,5 +21,16 @@ public class JsonService {
         result = result.replaceAll("\"", "");
         return result;
     }
+
+    public JsonNode parseJson(String url, String key) throws IOException {
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(response.getBody());
+        return root.get(key);
+    }
+
+
 
 }
