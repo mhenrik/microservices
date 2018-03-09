@@ -28,16 +28,29 @@ $(function () {
             }
         });
         gamearea = gamearea.join("");
-        let data = {"table" : gamearea};
+        let data = {"table" : gamearea, "id" : id};
         $.ajax({
             type: "POST",
             url: "/game/moves",
             data: data,
             success: function (response) {
-                console.log(response);
                 if(response == null) {
                     alert('end of game');
-                } else {
+                    $('.square').each(function (index, element) {
+                        while(element.firstChild){
+                            element.removeChild(element.firstChild);
+                        }
+                    })
+                }
+                else if(typeof response == "object"){
+                    alert("The winner is: " + response.winner);
+                    $('.square').each(function (index, element) {
+                        while(element.firstChild){
+                            element.removeChild(element.firstChild);
+                        }
+                    })
+                }
+                else {
                     id = response;
                     let square = $('#'+response);
                     let newIcon = $('<i/>', {});

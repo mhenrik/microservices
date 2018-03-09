@@ -10,29 +10,11 @@ public class TictactoeGame {
 
     private String[] fields;
 
-    private static TictactoeGame instance;
 
-    private TictactoeGame(String[] fields) {
+    public TictactoeGame(String[] fields) {
         this.fields = fields;
     }
 
-    public static TictactoeGame getInstance(String[] fields){
-        if (instance == null){
-            instance = new TictactoeGame(fields);
-        }
-        return instance;
-    }
-
-    public static TictactoeGame getInstance(){
-        if (instance == null){
-            instance = new TictactoeGame();
-        }
-        return instance;
-    }
-
-
-    private TictactoeGame(){
-    }
 
     public void playersTurn(int position, String turn){
         if (!Arrays.asList(validPlayers).contains(turn)){
@@ -46,28 +28,36 @@ public class TictactoeGame {
         }
     }
 
-    public String checkWin(String x, String o){
-        if ((fields[0] + fields[1] + fields[2]).equals(x) ||
-                (fields[3] + fields[4] + fields[5]).equals(x) ||
-                (fields[6] + fields[7] + fields[8]).equals(x) ||
-                (fields[0] + fields[3] + fields[6]).equals(x) ||
-                (fields[1] + fields[4] + fields[7]).equals(x) ||
-                (fields[2] + fields[5] + fields[8]).equals(x) ||
-                (fields[0] + fields[4] + fields[8]).equals(x) ||
-                (fields[2] + fields[4] + fields[6]).equals(x)) {
+    public String checkWin(){
+        if ((fields[0] + fields[1] + fields[2]).equals("XXX") ||
+                (fields[3] + fields[4] + fields[5]).equals("XXX") ||
+                (fields[6] + fields[7] + fields[8]).equals("XXX") ||
+                (fields[0] + fields[3] + fields[6]).equals("XXX") ||
+                (fields[1] + fields[4] + fields[7]).equals("XXX") ||
+                (fields[2] + fields[5] + fields[8]).equals("XXX") ||
+                (fields[0] + fields[4] + fields[8]).equals("XXX") ||
+                (fields[2] + fields[4] + fields[6]).equals("XXX")) {
             return "X";
         }
-        if ((fields[0] + fields[1] + fields[2]).equals(o) ||
-                (fields[3] + fields[4] + fields[5]).equals(o) ||
-                (fields[6] + fields[7] + fields[8]).equals(o) ||
-                (fields[0] + fields[3] + fields[6]).equals(o) ||
-                (fields[1] + fields[4] + fields[7]).equals(o) ||
-                (fields[2] + fields[5] + fields[8]).equals(o) ||
-                (fields[0] + fields[4] + fields[8]).equals(o) ||
-                (fields[2] + fields[4] + fields[6]).equals(o)) {
+        if ((fields[0] + fields[1] + fields[2]).equals("OOO") ||
+                (fields[3] + fields[4] + fields[5]).equals("OOO") ||
+                (fields[6] + fields[7] + fields[8]).equals("OOO") ||
+                (fields[0] + fields[3] + fields[6]).equals("OOO") ||
+                (fields[1] + fields[4] + fields[7]).equals("OOO") ||
+                (fields[2] + fields[5] + fields[8]).equals("OOO") ||
+                (fields[0] + fields[4] + fields[8]).equals("OOO") ||
+                (fields[2] + fields[4] + fields[6]).equals("OOO")) {
             return "O";
         }
         return "C";
     }
 
+    public String[] getFields() {
+        return fields;
+    }
+
+    public void resetFields() {
+        String[] newGame = new String[]{"-","-","-","-","-","-","-","-","-",};
+        this.fields = newGame;
+    }
 }
