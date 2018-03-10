@@ -34,6 +34,7 @@ $(function () {
             url: "/game/moves",
             data: data,
             success: function (response) {
+                console.log(response);
                 if(response == null) {
                     alert('end of game');
                     $('.square').each(function (index, element) {
@@ -42,7 +43,15 @@ $(function () {
                         }
                     })
                 }
-                else if(typeof response == "object"){
+                else if(response.position != null){
+                    if (response.winner == "O"){
+                        id = response.position;
+                        let square = $('#'+response.position);
+                        let newIcon = $('<i/>', {});
+                        newIcon.attr("aria-hidden", true);
+                        newIcon.attr("class", "fa fa-circle-o");
+                        square.append(newIcon);
+                    }
                     alert("The winner is: " + response.winner);
                     $('.square').each(function (index, element) {
                         while(element.firstChild){

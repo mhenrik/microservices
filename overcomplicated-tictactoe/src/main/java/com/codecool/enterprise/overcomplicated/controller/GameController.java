@@ -97,6 +97,7 @@ public class GameController {
         String endOfRoundOne = tictactoeGame.checkWin();
         if(!endOfRoundOne.equals("C")){
             winner.put("winner", endOfRoundOne);
+            winner.put("position", id);
             tictactoeGame.resetFields();
             return ResponseEntity.ok(winner);
         }
@@ -107,6 +108,7 @@ public class GameController {
         String endOfRoundTwo = tictactoeGame.checkWin();
         if (!endOfRoundTwo.equals("C")){
             winner.put("winner", endOfRoundTwo);
+            winner.put("position", result.toString());
             tictactoeGame.resetFields();
             return ResponseEntity.ok(winner);
         }
